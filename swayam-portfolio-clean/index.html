@@ -1,0 +1,228 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="Swayam Kavlekar — Robotics and AI engineer, creative technologist, video editor, CAD designer, and lyricist based in Belgaum, India." />
+    <meta property="og:title" content="Swayam Kavlekar — Creative Technologist" />
+    <meta property="og:description" content="Robotics × AI × Creative Studio. Engineering precision with creative instinct." />
+    <title>Swayam Kavlekar — Creative Technologist</title>
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet" />
+
+    <link rel="stylesheet" href="assets/styles.css" />
+
+    <!-- model-viewer web component -->
+    <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.4.0/model-viewer.min.js"></script>
+
+    <!-- Three.js Import Map -->
+    <script type="importmap">
+      {
+        "imports": {
+          "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js",
+          "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"
+        }
+      }
+    </script>
+  </head>
+  <body>
+
+    <!-- Three.js background canvas -->
+    <canvas id="hero-canvas" aria-hidden="true"></canvas>
+
+    <!-- ====== HEADER ====== -->
+    <header class="site-header" id="site-header">
+      <a class="brand" href="#home" aria-label="Home" id="brand-link">
+        <span id="brand-text">SK</span>
+      </a>
+      <nav class="nav" aria-label="Primary navigation">
+        <a href="#work"   id="nav-work">Work</a>
+        <a href="#lab"    id="nav-lab">3D Lab</a>
+        <a href="#studio" id="nav-studio">Studio</a>
+        <a href="#music"  id="nav-music">Music</a>
+        <a href="#about"  id="nav-about">About</a>
+      </nav>
+      <div class="header-right">
+        <a class="btn btn-primary btn-sm" href="#contact" id="nav-contact">Contact</a>
+      </div>
+    </header>
+
+    <main>
+
+      <!-- ====== HERO ====== -->
+      <section id="home" class="hero" aria-label="Hero">
+        <div class="hero-inner">
+          <div class="hero-content">
+            <p class="eyebrow hero-eyebrow" id="hero-eyebrow">Robotics × AI × Creative Studio</p>
+            <h1 class="hero-name" id="hero-name">Swayam<br>Kavlekar</h1>
+            <p class="hero-title" id="hero-title"></p>
+            <p class="hero-bio" id="hero-bio"></p>
+            <div class="hero-tags" id="hero-tags"></div>
+            <div class="hero-actions">
+              <a class="btn btn-primary" href="#work" id="hero-cta1">Explore Work</a>
+              <a class="btn btn-ghost"   href="#lab"  id="hero-cta2">View 3D Lab</a>
+            </div>
+          </div>
+          <aside class="hero-panel" aria-label="Stats">
+            <div class="panel-label">
+              <span id="panel-label">Mode</span>
+              <strong id="panel-value">Live</strong>
+            </div>
+            <div class="stats-grid" id="stats-grid"></div>
+          </aside>
+        </div>
+      </section>
+
+      <!-- ====== MARQUEE ====== -->
+      <div class="marquee-band" aria-hidden="true">
+        <div class="marquee-track" id="marquee-track"></div>
+      </div>
+
+      <!-- ====== WORK ====== -->
+      <section id="work" class="section" aria-label="Work">
+        <div class="section-inner">
+          <div class="section-head" data-animate>
+            <p class="eyebrow" id="work-eyebrow">Selected Work</p>
+            <h2 id="work-heading">Engineering precision with creative instinct.</h2>
+            <p class="lead" id="work-lead">A filterable map of robotics, AI workflows, CAD builds, software experiments, and creative production.</p>
+          </div>
+          <div class="filter-bar" id="project-filters" role="tablist" aria-label="Project filters"></div>
+          <div class="project-grid" id="project-grid"></div>
+        </div>
+      </section>
+
+      <!-- ====== 3D LAB ====== -->
+      <section id="lab" class="section" aria-label="3D Lab">
+        <div class="section-inner">
+          <div class="section-head" data-animate>
+            <p class="eyebrow" id="lab-eyebrow">3D Lab</p>
+            <h2 id="lab-heading">CAD, mechanisms, and physical ideas.</h2>
+            <p class="lead" id="lab-lead">Upload GLB/GLTF files in the admin panel to enable interactive 3D preview. Orbit, zoom, and inspect models in the browser.</p>
+          </div>
+          <div class="carousel-3d" id="model-carousel" aria-label="Model carousel">
+            <div class="carousel-stage">
+              <div class="carousel-track" id="model-track"></div>
+            </div>
+            <div class="carousel-controls">
+              <button class="carousel-btn" id="model-prev" aria-label="Previous model">&#8592;</button>
+              <div class="carousel-dots" id="model-dots" role="tablist"></div>
+              <button class="carousel-btn" id="model-next" aria-label="Next model">&#8594;</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ====== VIDEO STUDIO ====== -->
+      <section id="studio" class="section" aria-label="Video Studio">
+        <div class="section-inner">
+          <div class="section-head" data-animate>
+            <p class="eyebrow" id="studio-eyebrow">Video Studio</p>
+            <h2 id="studio-heading">Motion, rhythm, visual storytelling.</h2>
+            <p class="lead" id="studio-lead">Freelance edits, motion rhythm, and visual storytelling — powered by YouTube embeds and direct video uploads.</p>
+          </div>
+          <!-- 3D Carousel -->
+          <div class="carousel-3d" id="video-carousel" aria-label="Video carousel">
+            <div class="carousel-stage">
+              <div class="carousel-track" id="carousel-track"></div>
+            </div>
+            <div class="carousel-controls">
+              <button class="carousel-btn" id="carousel-prev" aria-label="Previous video">&#8592;</button>
+              <div class="carousel-dots" id="carousel-dots" role="tablist"></div>
+              <button class="carousel-btn" id="carousel-next" aria-label="Next video">&#8594;</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ====== MUSIC ====== -->
+      <section id="music" class="section" aria-label="Music and Lyrics">
+        <div class="section-inner">
+          <div class="section-head" data-animate>
+            <p class="eyebrow" id="music-eyebrow">Words &amp; Sound</p>
+            <h2 id="music-heading">Lyrics, rap drafts, and music drops.</h2>
+            <p class="lead" id="music-lead">A writing wall for verses, hooks, audio snippets, and the inner texture behind the technical work.</p>
+          </div>
+          <div class="music-layout">
+            <div class="tracks-col">
+              <h3 id="music-tracks-label">Audio Tracks</h3>
+              <div id="tracks-list"></div>
+            </div>
+            <div class="lyrics-col">
+              <h3 id="music-lyrics-label">Lyrics &amp; Verses</h3>
+              <div id="lyrics-list"></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ====== ABOUT ====== -->
+      <section id="about" class="section" aria-label="About">
+        <div class="section-inner">
+          <div class="about-layout">
+            <div class="about-text-col">
+              <div class="section-head" data-animate>
+                <p class="eyebrow" id="about-eyebrow">About</p>
+                <h2 id="about-heading">Builder, editor, designer, lyricist.</h2>
+              </div>
+              <div class="about-copy">
+                <p class="about-body" id="about-text"></p>
+                <div class="skill-cloud" id="skill-cloud"></div>
+              </div>
+            </div>
+            <div class="timeline-col" data-animate data-delay="2">
+              <div class="timeline" id="timeline"></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ====== CONTACT ====== -->
+      <section id="contact" class="contact-section" aria-label="Contact">
+        <div class="contact-inner">
+          <div>
+            <p class="eyebrow" id="contact-eyebrow" style="margin-bottom:12px">Contact</p>
+            <h2 id="contact-heading">Build systems. Shape stories.</h2>
+            <p class="lead" id="contact-line" style="margin-top:12px"></p>
+          </div>
+          <div class="contact-actions" id="contact-actions"></div>
+        </div>
+      </section>
+
+    </main>
+
+    <!-- ====== VIDEO MODAL ====== -->
+    <div class="video-modal" id="video-modal" hidden aria-modal="true" role="dialog" aria-label="Video player">
+      <div class="vm-backdrop" id="vm-backdrop"></div>
+      <div class="vm-inner">
+        <div class="vm-header">
+          <h3 id="vm-title">Video</h3>
+          <div class="vm-header-controls">
+            <button class="vm-control-btn" id="vm-mute" aria-label="Toggle mute" title="Mute / Unmute">&#128266;</button>
+            <button class="vm-control-btn" id="vm-close" aria-label="Close video">&#x2715;</button>
+          </div>
+        </div>
+        <div class="vm-player-wrap" id="vm-player"></div>
+      </div>
+    </div>
+
+    <!-- ====== PROJECT DIALOG ====== -->
+    <dialog id="project-dialog" class="project-dialog">
+      <button class="dialog-close" type="button" aria-label="Close project">&#x2715;</button>
+      <div id="dialog-content"></div>
+    </dialog>
+
+    <!-- Custom Comet Cursor -->
+    <div class="comet-cursor" id="comet-cursor">
+      <div class="comet-tail" id="comet-tail"></div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js"></script>
+    <script src="assets/content.js"></script>
+    <script src="assets/app.js"></script>
+  </body>
+</html>

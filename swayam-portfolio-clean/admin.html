@@ -1,0 +1,317 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex, nofollow" />
+    <title>Swayam Portfolio — Admin CMS</title>
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="assets/styles.css" />
+  </head>
+  <body class="admin-body">
+
+    <!-- ====== LOGIN ====== -->
+    <div id="login-view" class="admin-login-wrap">
+      <div class="admin-login-card">
+        <p class="eyebrow" style="margin-bottom:10px">Admin CMS</p>
+        <h1>Control Room</h1>
+        <p style="color:var(--text-dim);margin-bottom:28px;font-size:0.93rem">Enter your Supabase password to unlock the content editor.</p>
+        <form id="login-form" style="display:grid;gap:14px">
+          <div class="form-group">
+            <label for="admin-passcode">Password</label>
+            <input id="admin-passcode" type="password" autocomplete="current-password" placeholder="Your Supabase account password" required />
+          </div>
+          <button class="btn btn-primary btn-full" type="submit">Unlock CMS &#8594;</button>
+        </form>
+        <p style="color:var(--text-faint);font-size:0.78rem;margin-top:18px;text-align:center">Secured via Supabase Auth.</p>
+      </div>
+    </div>
+
+    <!-- ====== ADMIN PANEL ====== -->
+    <div id="admin-view" class="admin-layout" hidden>
+
+      <!-- Sidebar -->
+      <aside class="admin-sidebar" id="admin-sidebar">
+        <div class="sidebar-brand">
+          <div class="sidebar-logo">SK</div>
+          <div class="sidebar-brand-text">
+            <span>Portfolio CMS</span>
+            <span>Admin Panel</span>
+          </div>
+        </div>
+
+        <p class="sidebar-section-label">Content</p>
+        <button class="admin-nav-btn active" data-section="profile">    <span class="nav-icon">&#128100;</span> Profile</button>
+        <button class="admin-nav-btn" data-section="hero">              <span class="nav-icon">&#127968;</span> Hero &amp; Stats</button>
+        <button class="admin-nav-btn" data-section="sitetext">          <span class="nav-icon">&#127758;</span> Site Text &amp; Nav</button>
+        <button class="admin-nav-btn" data-section="projects">          <span class="nav-icon">&#128295;</span> Projects</button>
+
+        <p class="sidebar-section-label">Media</p>
+        <button class="admin-nav-btn" data-section="videos">            <span class="nav-icon">&#127909;</span> Videos</button>
+        <button class="admin-nav-btn" data-section="models">            <span class="nav-icon">&#128303;</span> 3D Models</button>
+        <button class="admin-nav-btn" data-section="music">             <span class="nav-icon">&#127925;</span> Music &amp; Audio</button>
+
+        <p class="sidebar-section-label">Writing</p>
+        <button class="admin-nav-btn" data-section="lyrics">            <span class="nav-icon">&#9997;</span>  Lyrics</button>
+
+        <p class="sidebar-section-label">Bio</p>
+        <button class="admin-nav-btn" data-section="about">             <span class="nav-icon">&#9201;</span>  About &amp; Timeline</button>
+        <button class="admin-nav-btn" data-section="skills">            <span class="nav-icon">&#9889;</span>  Skills &amp; Tags</button>
+        <button class="admin-nav-btn" data-section="marquee">           <span class="nav-icon">&#127955;</span> Marquee</button>
+
+        <div class="sidebar-footer">
+          <a class="btn btn-ghost btn-sm btn-full" href="index.html" target="_blank">&#128064; View Site</a>
+          <div style="height:10px"></div>
+          <button class="btn btn-danger btn-sm btn-full" id="logout-btn">Sign Out</button>
+        </div>
+      </aside>
+
+      <!-- Main content area -->
+      <main class="admin-main" id="admin-main">
+
+        <!-- Top bar -->
+        <div class="admin-top-bar">
+          <h1 id="section-title">Profile</h1>
+          <div class="top-actions">
+            <button class="btn btn-ghost btn-sm" id="export-btn">&#8595; Export JSON</button>
+            <label class="btn btn-ghost btn-sm" style="position:relative;overflow:hidden">
+              &#8593; Import JSON
+              <input type="file" accept="application/json" id="import-input" style="position:absolute;inset:0;opacity:0;cursor:pointer" />
+            </label>
+            <button class="btn btn-danger btn-sm" id="reset-btn">&#9888; Reset</button>
+            <button class="btn btn-primary" id="save-btn">&#9729; Push to Live</button>
+          </div>
+        </div>
+
+        <!-- ── PROFILE ── -->
+        <section id="section-profile" class="admin-section active">
+          <div class="form-grid" id="profile-form-grid"></div>
+        </section>
+
+        <!-- ── HERO & STATS ── -->
+        <section id="section-hero" class="admin-section">
+          <div class="admin-card">
+            <p class="admin-card-title">Hero Text</p>
+            <div class="form-grid" id="hero-form-grid"></div>
+          </div>
+          <div class="admin-card">
+            <div class="admin-card-title">
+              Stats Cards
+              <button class="btn btn-ghost btn-sm" id="add-stat-btn">+ Add Stat</button>
+            </div>
+            <div id="stats-admin-list" style="display:grid;gap:10px"></div>
+          </div>
+        </section>
+
+        <!-- ── SITE TEXT & NAV ── -->
+        <section id="section-sitetext" class="admin-section">
+
+          <div class="admin-card">
+            <p class="admin-card-title">Header &amp; Brand</p>
+            <div class="form-grid">
+              <div class="form-group"><label for="st-brand">Brand Initials (e.g. SK)</label><input id="st-brand" type="text" /></div>
+              <div class="form-group"><label for="st-panel-label">Hero Panel Label (e.g. Mode)</label><input id="st-panel-label" type="text" /></div>
+              <div class="form-group"><label for="st-panel-value">Hero Panel Value (e.g. Live)</label><input id="st-panel-value" type="text" /></div>
+            </div>
+          </div>
+
+          <div class="admin-card">
+            <p class="admin-card-title">Navigation Labels</p>
+            <div class="form-grid">
+              <div class="form-group"><label for="st-nav-work">Work</label><input id="st-nav-work" type="text" /></div>
+              <div class="form-group"><label for="st-nav-lab">3D Lab</label><input id="st-nav-lab" type="text" /></div>
+              <div class="form-group"><label for="st-nav-studio">Studio</label><input id="st-nav-studio" type="text" /></div>
+              <div class="form-group"><label for="st-nav-music">Music</label><input id="st-nav-music" type="text" /></div>
+              <div class="form-group"><label for="st-nav-about">About</label><input id="st-nav-about" type="text" /></div>
+              <div class="form-group"><label for="st-nav-contact">Contact Button</label><input id="st-nav-contact" type="text" /></div>
+            </div>
+          </div>
+
+          <div class="admin-card">
+            <p class="admin-card-title">Work Section</p>
+            <div class="form-grid">
+              <div class="form-group"><label for="st-work-eyebrow">Eyebrow</label><input id="st-work-eyebrow" type="text" /></div>
+              <div class="form-group form-full"><label for="st-work-heading">Heading</label><input id="st-work-heading" type="text" /></div>
+              <div class="form-group form-full"><label for="st-work-lead">Lead paragraph</label><textarea id="st-work-lead" rows="2"></textarea></div>
+            </div>
+          </div>
+
+          <div class="admin-card">
+            <p class="admin-card-title">3D Lab Section</p>
+            <div class="form-grid">
+              <div class="form-group"><label for="st-lab-eyebrow">Eyebrow</label><input id="st-lab-eyebrow" type="text" /></div>
+              <div class="form-group form-full"><label for="st-lab-heading">Heading</label><input id="st-lab-heading" type="text" /></div>
+              <div class="form-group form-full"><label for="st-lab-lead">Lead paragraph</label><textarea id="st-lab-lead" rows="2"></textarea></div>
+            </div>
+          </div>
+
+          <div class="admin-card">
+            <p class="admin-card-title">Video Studio Section</p>
+            <div class="form-grid">
+              <div class="form-group"><label for="st-studio-eyebrow">Eyebrow</label><input id="st-studio-eyebrow" type="text" /></div>
+              <div class="form-group form-full"><label for="st-studio-heading">Heading</label><input id="st-studio-heading" type="text" /></div>
+              <div class="form-group form-full"><label for="st-studio-lead">Lead paragraph</label><textarea id="st-studio-lead" rows="2"></textarea></div>
+            </div>
+          </div>
+
+          <div class="admin-card">
+            <p class="admin-card-title">Music Section</p>
+            <div class="form-grid">
+              <div class="form-group"><label for="st-music-eyebrow">Eyebrow</label><input id="st-music-eyebrow" type="text" /></div>
+              <div class="form-group form-full"><label for="st-music-heading">Heading</label><input id="st-music-heading" type="text" /></div>
+              <div class="form-group form-full"><label for="st-music-lead">Lead paragraph</label><textarea id="st-music-lead" rows="2"></textarea></div>
+              <div class="form-group"><label for="st-music-tracks">"Audio Tracks" column label</label><input id="st-music-tracks" type="text" /></div>
+              <div class="form-group"><label for="st-music-lyrics">"Lyrics &amp; Verses" column label</label><input id="st-music-lyrics" type="text" /></div>
+            </div>
+          </div>
+
+          <div class="admin-card">
+            <p class="admin-card-title">About Section</p>
+            <div class="form-grid">
+              <div class="form-group"><label for="st-about-eyebrow">Eyebrow</label><input id="st-about-eyebrow" type="text" /></div>
+              <div class="form-group form-full"><label for="st-about-heading">Heading</label><input id="st-about-heading" type="text" /></div>
+            </div>
+          </div>
+
+          <div class="admin-card">
+            <p class="admin-card-title">Contact Section</p>
+            <div class="form-grid">
+              <div class="form-group"><label for="st-contact-eyebrow">Eyebrow</label><input id="st-contact-eyebrow" type="text" /></div>
+              <div class="form-group form-full"><label for="st-contact-heading">Heading</label><input id="st-contact-heading" type="text" /></div>
+            </div>
+          </div>
+
+        </section>
+
+        <!-- ── PROJECTS ── -->
+        <section id="section-projects" class="admin-section">
+          <div class="admin-card-actions">
+            <button class="btn btn-cyan btn-sm" id="add-project-btn">+ Add Project</button>
+          </div>
+          <div class="admin-split" id="projects-split">
+            <div>
+              <div class="admin-list" id="project-list-admin"></div>
+            </div>
+            <div class="admin-card">
+              <form id="project-form-admin" style="display:grid;gap:14px"></form>
+            </div>
+          </div>
+        </section>
+
+        <!-- ── VIDEOS ── -->
+        <section id="section-videos" class="admin-section">
+          <div class="admin-card-actions">
+            <button class="btn btn-cyan btn-sm" id="add-video-btn">+ Add Video</button>
+            <div class="media-selector">
+              <select id="video-select"></select>
+              <button class="btn btn-danger btn-sm" id="delete-video-btn">Delete</button>
+            </div>
+          </div>
+          <div class="admin-card">
+            <div id="video-form-wrap" style="display:grid;gap:14px"></div>
+          </div>
+        </section>
+
+        <!-- ── 3D MODELS ── -->
+        <section id="section-models" class="admin-section">
+          <div class="admin-card-actions">
+            <button class="btn btn-cyan btn-sm" id="add-model-btn">+ Add 3D Model</button>
+            <div class="media-selector">
+              <select id="model-select"></select>
+              <button class="btn btn-danger btn-sm" id="delete-model-btn">Delete</button>
+            </div>
+          </div>
+          <div class="admin-card">
+            <div id="model-form-wrap" style="display:grid;gap:14px"></div>
+          </div>
+        </section>
+
+        <!-- ── MUSIC & AUDIO ── -->
+        <section id="section-music" class="admin-section">
+          <div class="admin-card-actions">
+            <button class="btn btn-cyan btn-sm" id="add-track-btn">+ Add Track</button>
+            <div class="media-selector">
+              <select id="track-select"></select>
+              <button class="btn btn-danger btn-sm" id="delete-track-btn">Delete</button>
+            </div>
+          </div>
+          <div class="admin-card">
+            <div id="track-form-wrap" style="display:grid;gap:14px"></div>
+          </div>
+        </section>
+
+        <!-- ── LYRICS ── -->
+        <section id="section-lyrics" class="admin-section">
+          <div class="admin-card-actions">
+            <button class="btn btn-cyan btn-sm" id="add-lyric-btn">+ Add Lyric</button>
+          </div>
+          <div class="admin-split">
+            <div>
+              <div class="admin-list" id="lyric-list-admin"></div>
+            </div>
+            <div class="admin-card">
+              <form id="lyric-form-admin" style="display:grid;gap:14px"></form>
+            </div>
+          </div>
+        </section>
+
+        <!-- ── ABOUT & TIMELINE ── -->
+        <section id="section-about" class="admin-section">
+          <div class="admin-card">
+            <p class="admin-card-title">About Text</p>
+            <div class="form-group form-full">
+              <label>About Paragraph</label>
+              <textarea id="about-textarea" rows="6"></textarea>
+            </div>
+          </div>
+          <div class="admin-card">
+            <div class="admin-card-title">
+              Timeline Entries
+              <button class="btn btn-ghost btn-sm" id="add-timeline-btn">+ Add Entry</button>
+            </div>
+            <div id="timeline-admin-list" style="display:grid;gap:14px"></div>
+          </div>
+        </section>
+
+        <!-- ── SKILLS & TAGS ── -->
+        <section id="section-skills" class="admin-section">
+          <div class="admin-card">
+            <p class="admin-card-title">Hero Tags (comma-separated)</p>
+            <div class="form-group form-full">
+              <textarea id="tags-textarea" rows="3" placeholder="Robotics, AI, CAD, ..."></textarea>
+            </div>
+          </div>
+          <div class="admin-card">
+            <p class="admin-card-title">Skills (comma-separated)</p>
+            <div class="form-group form-full">
+              <textarea id="skills-textarea" rows="6" placeholder="Fusion 360, SolidWorks, ..."></textarea>
+            </div>
+          </div>
+        </section>
+
+        <!-- ── MARQUEE ── -->
+        <section id="section-marquee" class="admin-section">
+          <div class="admin-card">
+            <p class="admin-card-title">Scrolling Marquee Items (comma-separated)</p>
+            <p style="color:var(--text-dim);font-size:0.84rem;margin-bottom:16px">These will auto-duplicate for seamless looping.</p>
+            <div class="form-group form-full">
+              <textarea id="marquee-textarea" rows="4" placeholder="Robotics, AI, CAD, ..."></textarea>
+            </div>
+          </div>
+        </section>
+
+      </main>
+    </div>
+
+    <!-- Toast -->
+    <div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="assets/content.js"></script>
+    <script src="assets/admin.js"></script>
+  </body>
+</html>
